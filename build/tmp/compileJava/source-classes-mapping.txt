@@ -1,85 +1,47 @@
-com/test2/logintest2/repository/UserRepository.java
- com.test2.logintest2.repository.UserRepository
-com/test2/logintest2/auth/ApplicationUserDao.java
- com.test2.logintest2.auth.ApplicationUserDao
-com/test2/logintest2/jwt/JwtSecretKey.java
- com.test2.logintest2.jwt.JwtSecretKey
-com/test2/logintest2/model/FakeContents.java
- com.test2.logintest2.model.FakeContents
-com/test2/logintest2/repository/FakeContentsRepository.java
- com.test2.logintest2.repository.FakeContentsRepository
-com/test2/logintest2/security/PasswordConfig.java
- com.test2.logintest2.security.PasswordConfig
-com/test2/logintest2/service/UserServiceImpl.java
- com.test2.logintest2.service.UserServiceImpl
-com/test2/logintest2/student/Student.java
- com.test2.logintest2.student.Student
-com/test2/logintest2/db/ReadUser.java
- com.test2.logintest2.db.ReadUser
-com/test2/logintest2/course/CourseTransaction.java
- com.test2.logintest2.course.CourseTransaction
-com/test2/logintest2/course/InfoController.java
- com.test2.logintest2.course.InfoController
-com/test2/logintest2/model/ChagePassword.java
- com.test2.logintest2.model.ChagePassword
-com/test2/logintest2/repository/ContenetsRepository.java
- com.test2.logintest2.repository.ContenetsRepository
-com/test2/logintest2/security/ApplicationUserRole.java
- com.test2.logintest2.security.ApplicationUserRole
-com/test2/logintest2/service/UserService.java
- com.test2.logintest2.service.UserService
-com/test2/logintest2/model/UserLogin.java
- com.test2.logintest2.model.UserLogin
-com/test2/logintest2/student/StudentManagementController.java
- com.test2.logintest2.student.StudentManagementController
-com/test2/logintest2/model/User.java
- com.test2.logintest2.model.User
-com/test2/logintest2/model/Role.java
- com.test2.logintest2.model.Role
-com/test2/logintest2/security/ApplicationUserPermission.java
- com.test2.logintest2.security.ApplicationUserPermission
-com/test2/logintest2/student/StudentController.java
- com.test2.logintest2.student.StudentController
-com/test2/logintest2/course/ContentController.java
- com.test2.logintest2.course.ContentController
-com/test2/logintest2/model/Sections.java
- com.test2.logintest2.model.Sections
-com/test2/logintest2/controller/Templatecontroller.java
- com.test2.logintest2.controller.Templatecontroller
-com/test2/logintest2/auth/FakeApplicationUserDaoService.java
- com.test2.logintest2.auth.FakeApplicationUserDaoService
-com/test2/logintest2/db/AuthS.java
- com.test2.logintest2.db.AuthS
-com/test2/logintest2/security/ApplicationSecurityConfig.java
- com.test2.logintest2.security.ApplicationSecurityConfig
- com.test2.logintest2.security.ApplicationSecurityConfig$1
-com/test2/logintest2/repository/CourseInfoRepository.java
- com.test2.logintest2.repository.CourseInfoRepository
-com/test2/logintest2/repository/InstructorRepository.java
- com.test2.logintest2.repository.InstructorRepository
-com/test2/logintest2/auth/ApplicationUserService.java
- com.test2.logintest2.auth.ApplicationUserService
-com/test2/logintest2/repository/SectionRepository.java
- com.test2.logintest2.repository.SectionRepository
-com/test2/logintest2/model/Instructor.java
- com.test2.logintest2.model.Instructor
-com/test2/logintest2/jwt/UsernameAndPasswordAuthenticationRequest.java
- com.test2.logintest2.jwt.UsernameAndPasswordAuthenticationRequest
-com/test2/logintest2/model/CourseInfo.java
- com.test2.logintest2.model.CourseInfo
-com/test2/logintest2/repository/TransactionRepository.java
- com.test2.logintest2.repository.TransactionRepository
-com/test2/logintest2/jwt/JwtUsernameAndPasswordAuthenticationFilter.java
- com.test2.logintest2.jwt.JwtUsernameAndPasswordAuthenticationFilter
-com/test2/logintest2/jwt/JwtTokenVerifier.java
- com.test2.logintest2.jwt.JwtTokenVerifier
-com/test2/logintest2/jwt/JwtConfig.java
- com.test2.logintest2.jwt.JwtConfig
-com/test2/logintest2/model/Contents.java
- com.test2.logintest2.model.Contents
-com/test2/logintest2/model/Transaction.java
- com.test2.logintest2.model.Transaction
-com/test2/logintest2/auth/ApplicationUser.java
- com.test2.logintest2.auth.ApplicationUser
-com/test2/logintest2/Logintest2Application.java
- com.test2.logintest2.Logintest2Application
+uz/qirol/eombor/jwt/JwtTokenVerifier.java
+ uz.qirol.eombor.jwt.JwtTokenVerifier
+uz/qirol/eombor/jwt/JwtUsernameAndPasswordAuthenticationFilter.java
+ uz.qirol.eombor.jwt.JwtUsernameAndPasswordAuthenticationFilter
+uz/qirol/eombor/authorization/ApplicationUserManagement.java
+ uz.qirol.eombor.authorization.ApplicationUserManagement
+uz/qirol/eombor/auth/ApplicationUser.java
+ uz.qirol.eombor.auth.ApplicationUser
+uz/qirol/eombor/EomborApplication.java
+ uz.qirol.eombor.EomborApplication
+uz/qirol/eombor/auth/ApplicationUserService.java
+ uz.qirol.eombor.auth.ApplicationUserService
+uz/qirol/eombor/security/ApplicationUserRole.java
+ uz.qirol.eombor.security.ApplicationUserRole
+uz/qirol/eombor/model/Market.java
+ uz.qirol.eombor.model.Market
+uz/qirol/eombor/repository/UserRepository.java
+ uz.qirol.eombor.repository.UserRepository
+uz/qirol/eombor/jwt/UsernameAndPasswordAuthenticationRequest.java
+ uz.qirol.eombor.jwt.UsernameAndPasswordAuthenticationRequest
+uz/qirol/eombor/auth/ApplicationUserDao.java
+ uz.qirol.eombor.auth.ApplicationUserDao
+uz/qirol/eombor/model/User.java
+ uz.qirol.eombor.model.User
+uz/qirol/eombor/jwt/JwtConfig.java
+ uz.qirol.eombor.jwt.JwtConfig
+uz/qirol/eombor/security/ApplicationUserPermission.java
+ uz.qirol.eombor.security.ApplicationUserPermission
+uz/qirol/eombor/student/Student.java
+ uz.qirol.eombor.student.Student
+uz/qirol/eombor/repository/MarketRepository.java
+ uz.qirol.eombor.repository.MarketRepository
+uz/qirol/eombor/controller/Templatecontroller.java
+ uz.qirol.eombor.controller.Templatecontroller
+uz/qirol/eombor/jwt/JwtSecretKey.java
+ uz.qirol.eombor.jwt.JwtSecretKey
+uz/qirol/eombor/auth/FakeApplicationUserDaoService.java
+ uz.qirol.eombor.auth.FakeApplicationUserDaoService
+uz/qirol/eombor/security/ApplicationSecurityConfig.java
+ uz.qirol.eombor.security.ApplicationSecurityConfig
+ uz.qirol.eombor.security.ApplicationSecurityConfig$1
+uz/qirol/eombor/security/PasswordConfig.java
+ uz.qirol.eombor.security.PasswordConfig
+uz/qirol/eombor/student/StudentController.java
+ uz.qirol.eombor.student.StudentController
+uz/qirol/eombor/student/StudentManagementController.java
+ uz.qirol.eombor.student.StudentManagementController

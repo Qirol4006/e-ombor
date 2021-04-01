@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import uz.qirol.eombor.model.User;
+import uz.qirol.eombor.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-import static uz.qirol.eombor.security.ApplicationUserRole.ADMIN;
+import static uz.qirol.eombor.security.ApplicationUserRole.*;
 
 @Repository("fake")
 @CrossOrigin
@@ -17,6 +19,9 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao{
 
 
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Autowired
@@ -36,11 +41,56 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao{
     private List<ApplicationUser> getApplicationUsers(String opa) {
 
 
+        User user = userRepository.findByUsername(opa).orElse(null);
+        if (user.getType() == "SOTUVCHI"){
+            List<ApplicationUser> applicationUsers = Lists.newArrayList(
+                    new ApplicationUser(
+                            user.getUsername(),
+                            user.getPassword(),
+                            ADMINTEE.getGrantedAuthorities(),
+                            true,
+                            true,
+                            true,
+                            true
+                    )
+            );
+            return applicationUsers;
+        }
+
+        if (user.getType() == "BOSHLIQ"){
+            List<ApplicationUser> applicationUsers = Lists.newArrayList(
+                    new ApplicationUser(
+                            user.getUsername(),
+                            user.getPassword(),
+                            ADMIN.getGrantedAuthorities(),
+                            true,
+                            true,
+                            true,
+                            true
+                    )
+            );
+            return applicationUsers;
+        }
+
+        if (user.getType() == "MARKET"){
+            List<ApplicationUser> applicationUsers = Lists.newArrayList(
+                    new ApplicationUser(
+                            user.getUsername(),
+                            user.getPassword(),
+                            ADMIN.getGrantedAuthorities(),
+                            true,
+                            true,
+                            true,
+                            true
+                    )
+            );
+            return applicationUsers;
+        }
 
         List<ApplicationUser> applicationUsers = Lists.newArrayList(
                 new ApplicationUser(
                         "qirol",
-                        passwordEncoder.encode("123"),
+                        passwordEncoder.encode("Qirol!234"),
                         ADMIN.getGrantedAuthorities(),
                         true,
                         true,
