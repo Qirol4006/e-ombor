@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uz.qirol.eombor.model.Market;
 import uz.qirol.eombor.model.User;
+import uz.qirol.eombor.repository.MarketRepository;
 import uz.qirol.eombor.repository.UserRepository;
 
 @RestController
@@ -19,6 +21,9 @@ public class ApplicationUserManagement {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MarketRepository marketRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     public ApplicationUserManagement(PasswordEncoder passwordEncoder) {
@@ -27,7 +32,7 @@ public class ApplicationUserManagement {
 
 
     @PostMapping(value = "/register")
-    private ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<?> registerUser(@RequestBody User user){
 
         if (userRepository.findByUsername(user.getUsername()).isPresent()){
             return ResponseEntity.ok("username");
@@ -44,5 +49,21 @@ public class ApplicationUserManagement {
         user1.setPassword("");
 
         return ResponseEntity.ok(user1);
+    }
+
+    @PostMapping(value = "/register/market")
+    public ResponseEntity<?> registerMarket (@RequestBody Market market){
+
+        if (marketRepository.findByName(market.getName()).isPresent()){
+            return ResponseEntity.ok("name");
+        }
+
+        if (marketRepository.findByUsername(market.getUsername()).isPresent()){
+            return ResponseEntity.ok("username");
+        }
+        market.setPassword(passwordEncoder.encode(market.getPassword()));
+        Market market1 = marketRepository.save(market);
+        market1.setPassword("");
+        return ResponseEntity.ok(market1);
     }
 }
