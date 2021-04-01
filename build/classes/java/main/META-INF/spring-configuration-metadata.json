@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "application.jwt",
+      "type": "com.test2.logintest2.jwt.JwtConfig",
+      "sourceType": "com.test2.logintest2.jwt.JwtConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "application.jwt.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.test2.logintest2.jwt.JwtConfig"
+    },
+    {
+      "name": "application.jwt.token-expiration-after-days",
+      "type": "java.lang.String",
+      "sourceType": "com.test2.logintest2.jwt.JwtConfig"
+    },
+    {
+      "name": "application.jwt.token-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.test2.logintest2.jwt.JwtConfig"
+    }
+  ],
+  "hints": []
+}
