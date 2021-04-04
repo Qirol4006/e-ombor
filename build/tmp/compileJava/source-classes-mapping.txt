@@ -1,35 +1,47 @@
 uz/qirol/eombor/jwt/JwtTokenVerifier.java
  uz.qirol.eombor.jwt.JwtTokenVerifier
+uz/qirol/eombor/auth/ApplicationUser.java
+ uz.qirol.eombor.auth.ApplicationUser
+uz/qirol/eombor/repository/MarketNameRepository.java
+ uz.qirol.eombor.repository.MarketNameRepository
+uz/qirol/eombor/model/MarkesName.java
+ uz.qirol.eombor.model.MarkesName
+uz/qirol/eombor/repository/PermissionRequest.java
+ uz.qirol.eombor.repository.PermissionRequest
+uz/qirol/eombor/model/Market.java
+ uz.qirol.eombor.model.Market
+uz/qirol/eombor/repository/UserRepository.java
+ uz.qirol.eombor.repository.UserRepository
+uz/qirol/eombor/auth/ApplicationUserDao.java
+ uz.qirol.eombor.auth.ApplicationUserDao
+uz/qirol/eombor/student/Student.java
+ uz.qirol.eombor.student.Student
+uz/qirol/eombor/repository/MarketRepository.java
+ uz.qirol.eombor.repository.MarketRepository
+uz/qirol/eombor/student/StudentController.java
+ uz.qirol.eombor.student.StudentController
+uz/qirol/eombor/student/StudentManagementController.java
+ uz.qirol.eombor.student.StudentManagementController
 uz/qirol/eombor/jwt/JwtUsernameAndPasswordAuthenticationFilter.java
  uz.qirol.eombor.jwt.JwtUsernameAndPasswordAuthenticationFilter
 uz/qirol/eombor/authorization/ApplicationUserManagement.java
  uz.qirol.eombor.authorization.ApplicationUserManagement
-uz/qirol/eombor/auth/ApplicationUser.java
- uz.qirol.eombor.auth.ApplicationUser
+uz/qirol/eombor/model/Permission.java
+ uz.qirol.eombor.model.Permission
 uz/qirol/eombor/EomborApplication.java
  uz.qirol.eombor.EomborApplication
 uz/qirol/eombor/auth/ApplicationUserService.java
  uz.qirol.eombor.auth.ApplicationUserService
 uz/qirol/eombor/security/ApplicationUserRole.java
  uz.qirol.eombor.security.ApplicationUserRole
-uz/qirol/eombor/model/Market.java
- uz.qirol.eombor.model.Market
-uz/qirol/eombor/repository/UserRepository.java
- uz.qirol.eombor.repository.UserRepository
 uz/qirol/eombor/jwt/UsernameAndPasswordAuthenticationRequest.java
  uz.qirol.eombor.jwt.UsernameAndPasswordAuthenticationRequest
-uz/qirol/eombor/auth/ApplicationUserDao.java
- uz.qirol.eombor.auth.ApplicationUserDao
 uz/qirol/eombor/model/User.java
  uz.qirol.eombor.model.User
 uz/qirol/eombor/jwt/JwtConfig.java
  uz.qirol.eombor.jwt.JwtConfig
 uz/qirol/eombor/security/ApplicationUserPermission.java
  uz.qirol.eombor.security.ApplicationUserPermission
-uz/qirol/eombor/student/Student.java
- uz.qirol.eombor.student.Student
-uz/qirol/eombor/repository/MarketRepository.java
- uz.qirol.eombor.repository.MarketRepository
 uz/qirol/eombor/controller/Templatecontroller.java
  uz.qirol.eombor.controller.Templatecontroller
 uz/qirol/eombor/jwt/JwtSecretKey.java
@@ -41,7 +53,3 @@ uz/qirol/eombor/security/ApplicationSecurityConfig.java
  uz.qirol.eombor.security.ApplicationSecurityConfig$1
 uz/qirol/eombor/security/PasswordConfig.java
  uz.qirol.eombor.security.PasswordConfig
-uz/qirol/eombor/student/StudentController.java
- uz.qirol.eombor.student.StudentController
-uz/qirol/eombor/student/StudentManagementController.java
- uz.qirol.eombor.student.StudentManagementController

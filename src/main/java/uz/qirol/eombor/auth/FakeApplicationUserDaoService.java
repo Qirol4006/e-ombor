@@ -42,7 +42,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao{
 
 
         User user = userRepository.findByUsername(opa).orElse(null);
-        if (user.getType() == "SOTUVCHI"){
+        if (user.getType().equals("SOTUVCHI")){
             List<ApplicationUser> applicationUsers = Lists.newArrayList(
                     new ApplicationUser(
                             user.getUsername(),
@@ -57,7 +57,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao{
             return applicationUsers;
         }
 
-        if (user.getType() == "BOSHLIQ"){
+        if (user.getType().equals("BOSHLIQ")){
             List<ApplicationUser> applicationUsers = Lists.newArrayList(
                     new ApplicationUser(
                             user.getUsername(),
@@ -72,7 +72,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao{
             return applicationUsers;
         }
 
-        if (user.getType() == "MARKET"){
+        if (user.getType().equals("MARKET")){
             List<ApplicationUser> applicationUsers = Lists.newArrayList(
                     new ApplicationUser(
                             user.getUsername(),

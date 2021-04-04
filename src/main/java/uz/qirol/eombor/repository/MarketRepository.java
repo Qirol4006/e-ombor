@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface MarketRepository extends JpaRepository<Market, Long> {
 
     Optional<Market> findByName(String name);
-    List<Market> findAllByEmail(String email);
+    Optional<Market> findByEmail(String email);
     Optional<Market> findByUsername(String username);
 }
