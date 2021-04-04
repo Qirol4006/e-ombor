@@ -62,7 +62,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/user/register",
                         "/login",
-                        "/user/register/market"
+                        "/user/register/market",
+                        "/user/market"
                 )
                 .permitAll()
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.STUDENT.name())

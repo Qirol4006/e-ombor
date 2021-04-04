@@ -1,19 +1,22 @@
 package uz.qirol.eombor.authorization;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import uz.qirol.eombor.model.Market;
-import uz.qirol.eombor.model.Permission;
-import uz.qirol.eombor.model.User;
-import uz.qirol.eombor.repository.MarketNameRepository;
-import uz.qirol.eombor.repository.MarketRepository;
-import uz.qirol.eombor.repository.PermissionRequest;
-import uz.qirol.eombor.repository.UserRepository;
+import uz.qirol.eombor.jwt.JwtConfig;
+import uz.qirol.eombor.model.*;
+import uz.qirol.eombor.repository.*;
 
+import javax.crypto.SecretKey;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.Date;
+
+import static uz.qirol.eombor.security.ApplicationUserRole.ADMIN;
 
 @RestController
 @Controller
@@ -32,10 +35,19 @@ public class ApplicationUserManagement {
     @Autowired
     private MarketNameRepository marketNameRepository;
 
+    @Autowired
+    private AcceptedRepository acceptedRepository;
+
     private final PasswordEncoder passwordEncoder;
 
-    public ApplicationUserManagement(PasswordEncoder passwordEncoder) {
+
+    private final JwtConfig jwtConfig;
+    private final SecretKey secretKey;
+
+    public ApplicationUserManagement(PasswordEncoder passwordEncoder, JwtConfig jwtConfig, SecretKey secretKey) {
         this.passwordEncoder = passwordEncoder;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
     }
 
 
@@ -44,6 +56,10 @@ public class ApplicationUserManagement {
 
         if (userRepository.findByUsername(user.getUsername()).isPresent()){
             return ResponseEntity.ok("username");
+        }
+
+        if (marketRepository.findByUsername(user.getUsername()).isPresent()){
+            return ResponseEntity.ok("market");
         }
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
@@ -66,6 +82,10 @@ public class ApplicationUserManagement {
             return ResponseEntity.ok("name");
         }
 
+        if (userRepository.findByUsername(market.getUsername()).isPresent()){
+            return ResponseEntity.ok("user");
+        }
+
         if (marketRepository.findByUsername(market.getUsername()).isPresent()){
             return ResponseEntity.ok("username");
         }
@@ -77,6 +97,28 @@ public class ApplicationUserManagement {
         Market market1 = marketRepository.save(market);
         market1.setPassword("");
         return ResponseEntity.ok(market1);
+    }
+
+    @PostMapping(value = "/market")
+    public ResponseEntity<?> marketLogin(@RequestBody MarketLogin marketLogin){
+
+        if (!marketRepository.findByUsername(marketLogin.getUsername()).isPresent()){
+            return ResponseEntity.ok("xatok");
+        }
+        Market market = marketRepository.findByUsername(marketLogin.getUsername()).orElse(null);
+
+        if (!passwordEncoder.matches(marketLogin.getPassword() ,market.getPassword())){
+            return ResponseEntity.ok("hatok");
+        }
+        String token = Jwts.builder()
+                .setSubject(market.getUsername())
+                .claim("authorities", ADMIN.getGrantedAuthorities())
+                .setIssuedAt(new Date())
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+
+        return ResponseEntity.ok(jwtConfig.getTokenPrefix() + token);
     }
 
     @GetMapping(value = "/about/market")
@@ -133,6 +175,10 @@ public class ApplicationUserManagement {
     public ResponseEntity<?> perReqs(Principal principal){
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
 
+        if (!permissionRequest.findByUserId(user.getId()).isPresent()){
+            return ResponseEntity.ok("bad");
+        }
+
         Permission permission = permissionRequest.findByUserId(user.getId()).orElse(null);
 
         Market market = marketRepository.findById(permission.getMagazinId()).orElse(null);
@@ -143,5 +189,39 @@ public class ApplicationUserManagement {
         return ResponseEntity.ok(market);
     }
 
+    @GetMapping(value = "/market/permissionrequests")
+    public ResponseEntity<?> getPerReqsForMarket(Principal principal){
+        Market market = marketRepository.findByUsername(principal.getName()).orElse(null);
+        return ResponseEntity.ok(permissionRequest.findByMagazinId(market.getId()));
+    }
 
+    @GetMapping(value = "/acceptrequest/{id}")
+    public ResponseEntity<?> acceptRequest(@PathVariable("id") Long id, Principal principal){
+
+        if (!permissionRequest.findById(id).isPresent()){
+            return ResponseEntity.ok("bad");
+        }
+
+        if (!permissionRequest.findById(id).isPresent()){
+            return ResponseEntity.ok("bad2");
+        }
+
+        Permission permission = permissionRequest.findById(id).orElse(null);
+
+        Market market = marketRepository.findByUsername(principal.getName()).orElse(null);
+
+        if (!permission.getMagazinId().equals(market.getId())){
+            return ResponseEntity.ok("bad3");
+        }
+
+        User user = userRepository.findById(permission.getUserId()).orElse(null);
+        user.setType(permission.getPermission());
+        userRepository.save(user);
+        ReqAccepted reqAccepted = new ReqAccepted();
+
+        reqAccepted.setMarketId(permission.getMagazinId());
+        reqAccepted.setUserId(permission.getUserId());
+
+        return ResponseEntity.ok(acceptedRepository.save(reqAccepted));
+    }
 }
