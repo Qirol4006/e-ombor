@@ -75,3 +75,9 @@ uz/qirol/eombor/security/PasswordConfig.java
  uz.qirol.eombor.security.PasswordConfig
 uz/qirol/eombor/model/SellProduct.java
  uz.qirol.eombor.model.SellProduct
+uz/qirol/eombor/repository/TypesRepository.java
+ uz.qirol.eombor.repository.TypesRepository
+uz/qirol/eombor/contents/Types.java
+ uz.qirol.eombor.contents.Types
+uz/qirol/eombor/model/ProductType.java
+ uz.qirol.eombor.model.ProductType
