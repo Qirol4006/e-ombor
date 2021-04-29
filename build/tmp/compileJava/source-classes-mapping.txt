@@ -14,8 +14,12 @@ uz/qirol/eombor/model/Market.java
  uz.qirol.eombor.model.Market
 uz/qirol/eombor/repository/UserRepository.java
  uz.qirol.eombor.repository.UserRepository
+uz/qirol/eombor/model/ProductType.java
+ uz.qirol.eombor.model.ProductType
 uz/qirol/eombor/auth/ApplicationUserDao.java
  uz.qirol.eombor.auth.ApplicationUserDao
+uz/qirol/eombor/contents/Types.java
+ uz.qirol.eombor.contents.Types
 uz/qirol/eombor/model/Product.java
  uz.qirol.eombor.model.Product
 uz/qirol/eombor/model/MarketLogin.java
@@ -36,6 +40,8 @@ uz/qirol/eombor/authorization/ApplicationUserManagement.java
  uz.qirol.eombor.authorization.ApplicationUserManagement
 uz/qirol/eombor/model/Permission.java
  uz.qirol.eombor.model.Permission
+uz/qirol/eombor/repository/TypesRepository.java
+ uz.qirol.eombor.repository.TypesRepository
 uz/qirol/eombor/model/ReqAccepted.java
  uz.qirol.eombor.model.ReqAccepted
 uz/qirol/eombor/EomborApplication.java
@@ -75,9 +81,3 @@ uz/qirol/eombor/security/PasswordConfig.java
  uz.qirol.eombor.security.PasswordConfig
 uz/qirol/eombor/model/SellProduct.java
  uz.qirol.eombor.model.SellProduct
-uz/qirol/eombor/repository/TypesRepository.java
- uz.qirol.eombor.repository.TypesRepository
-uz/qirol/eombor/contents/Types.java
- uz.qirol.eombor.contents.Types
-uz/qirol/eombor/model/ProductType.java
- uz.qirol.eombor.model.ProductType

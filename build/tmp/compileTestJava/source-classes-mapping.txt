@@ -1,2 +1,2 @@
-com/test2/logintest2/Logintest2ApplicationTests.java
- com.test2.logintest2.Logintest2ApplicationTests
+uz/qirol/eombor/EomborApplicationTests.java
+ uz.qirol.eombor.EomborApplicationTests
