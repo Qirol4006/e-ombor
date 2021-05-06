@@ -2,6 +2,7 @@ package uz.qirol.eombor.contents;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uz.qirol.eombor.model.*;
@@ -90,6 +91,20 @@ public class Products {
         return ResponseEntity.ok(transactionRepository.save(transaction));
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getProductInfo(@PathVariable("id") Long id, Principal principal){
+        User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent()){
+            return ResponseEntity.ok("user");
+        }
+        ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
+        Product product = productRepository.findById(id).orElse(null);
+        if (!product.getMarketId().equals(reqAccepted.getMarketId())){
+            return ResponseEntity.ok("market");
+        }
+        return ResponseEntity.ok(product);
+    }
+
     @PostMapping(value = "/update")
     public ResponseEntity<?> updateProduct(@RequestBody Product product, Principal principal){
 
@@ -176,5 +191,23 @@ public class Products {
         ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
         return ResponseEntity.ok(productRepository.findAllByMarketIdAndType1AndType2(
                 reqAccepted.getMarketId(), id1, id2));
+    }
+
+    @GetMapping(value = "/del/{id}")
+    public ResponseEntity<?> deleteProductById(@PathVariable("id") Long id, Principal principal){
+        if (!productRepository.findById(id).isPresent()){
+            return ResponseEntity.ok("product");
+        }
+        User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent()){
+            return ResponseEntity.ok("user");
+        }
+        ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
+        Product product = productRepository.findById(id).orElse(null);
+        if (!product.getMarketId().equals(reqAccepted.getMarketId())){
+            return ResponseEntity.ok("market");
+        }
+        productRepository.deleteById(product.getId());
+        return ResponseEntity.ok("Deleted");
     }
 }

@@ -21,4 +21,7 @@ public class Permission {
 
     @Column(name = "permission")
     private String permission;
+
+    @Column(name = "name")
+    private String name;
 }

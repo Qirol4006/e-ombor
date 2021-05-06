@@ -171,7 +171,7 @@ public class ApplicationUserManagement {
         return ResponseEntity.ok(permissionRequest.save(permission));
     }
 
-    @GetMapping(value = "/permissionrequsts")
+    @GetMapping(value = "/permissionrequests")
     public ResponseEntity<?> perReqs(Principal principal){
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
 
@@ -192,7 +192,7 @@ public class ApplicationUserManagement {
     @GetMapping(value = "/market/permissionrequests")
     public ResponseEntity<?> getPerReqsForMarket(Principal principal){
         Market market = marketRepository.findByUsername(principal.getName()).orElse(null);
-        return ResponseEntity.ok(permissionRequest.findByMagazinId(market.getId()));
+        return ResponseEntity.ok(permissionRequest.findAllByMagazinId(market.getId()));
     }
 
     @GetMapping(value = "/acceptrequest/{id}")
@@ -222,12 +222,45 @@ public class ApplicationUserManagement {
         reqAccepted.setMarketId(permission.getMagazinId());
         reqAccepted.setUserId(permission.getUserId());
 
+        permissionRequest.deleteById(id);
+
         return ResponseEntity.ok(acceptedRepository.save(reqAccepted));
     }
+
+    @GetMapping(value = "/delete/request/{id}")
+    public ResponseEntity<?> deleteRequest(@PathVariable("id") Long id, Principal principal){
+
+        if (!permissionRequest.findById(id).isPresent()){
+            return ResponseEntity.ok("bad");
+        }
+
+        if (!permissionRequest.findById(id).isPresent()){
+            return ResponseEntity.ok("bad2");
+        }
+
+        Permission permission = permissionRequest.findById(id).orElse(null);
+
+        Market market = marketRepository.findByUsername(principal.getName()).orElse(null);
+
+        if (!permission.getMagazinId().equals(market.getId())){
+            return ResponseEntity.ok("bad3");
+        }
+
+        if (permissionRequest.findById(id).isPresent()){
+            permissionRequest.deleteById(id);
+        }else {
+            return ResponseEntity.ok("NotFoundRequest");
+        }
+
+
+        return ResponseEntity.ok("Deleted!");
+    }
+
 
     @GetMapping(value = "/getmarketid")
     public ResponseEntity<?> getMarketId(Principal principal){
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
         return ResponseEntity.ok(acceptedRepository.findByUserId(user.getId()));
     }
+
 }
