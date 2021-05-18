@@ -10,6 +10,8 @@ import uz.qirol.eombor.repository.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @Controller
@@ -26,6 +28,8 @@ public class Products {
     private TransactionRepository transactionRepository;
     @Autowired
     private SellerRepository sellerRepository;
+    @Autowired
+    private SellProds sellProds;
 
     @GetMapping(value = "/getall")
     public ResponseEntity<?> getAllProducts(Principal principal){
@@ -66,29 +70,33 @@ public class Products {
     }
 
     @PostMapping(value = "/sell")
-    public ResponseEntity<?> sellProduct(@RequestBody SellProduct sellProduct, Principal principal){
+    public ResponseEntity<?> sellProduct(@RequestBody List<SellProduct> sellProduct, Principal principal){
 
-        if (!productRepository.findById(sellProduct.getId()).isPresent()){
-            return ResponseEntity.ok("product");
-        }
-
-        Product product = productRepository.findById(sellProduct.getId()).orElse(null);
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
-        if (!acceptedRepository.findByUserIdAndMarketId(user.getId(), product.getMarketId()).isPresent()){
+
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent()){
             return ResponseEntity.ok("user");
         }
-        if (product.getSoni() < sellProduct.getCount()){
-            return ResponseEntity.ok("count");
-        }
+
+        ReqAccepted accepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
+
         Transaction transaction = new Transaction();
-        transaction.setMarketId(product.getMarketId());
-        transaction.setProductId(product.getId());
-        transaction.setUser(user.getName());
-        transaction.setUserId(user.getId());
-        transaction.setProductName(product.getName());
+
+        transaction.setSoni((long) sellProduct.size());
         transaction.setSellDate(LocalDateTime.now());
-        transaction.setSoni(sellProduct.getCount());
-        return ResponseEntity.ok(transactionRepository.save(transaction));
+        transaction.setUserId(user.getId());
+        transaction.setMarketId(accepted.getMarketId());
+        transaction.setUser(user.getName());
+
+        Transaction transaction1 = transactionRepository.save(transaction);
+
+        sellProds.deleteAll();
+        sellProduct.forEach( u -> {
+            u.setMarketId(accepted.getMarketId());
+            u.setTransactionId(transaction1.getId());
+        });
+
+        return ResponseEntity.ok(sellProds.saveAll(sellProduct));
     }
 
     @GetMapping(value = "/{id}")

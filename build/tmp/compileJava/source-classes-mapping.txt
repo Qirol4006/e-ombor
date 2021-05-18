@@ -38,6 +38,8 @@ uz/qirol/eombor/jwt/JwtUsernameAndPasswordAuthenticationFilter.java
  uz.qirol.eombor.jwt.JwtUsernameAndPasswordAuthenticationFilter
 uz/qirol/eombor/authorization/ApplicationUserManagement.java
  uz.qirol.eombor.authorization.ApplicationUserManagement
+uz/qirol/eombor/repository/SellProds.java
+ uz.qirol.eombor.repository.SellProds
 uz/qirol/eombor/model/Permission.java
  uz.qirol.eombor.model.Permission
 uz/qirol/eombor/repository/TypesRepository.java

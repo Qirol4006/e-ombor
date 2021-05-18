@@ -14,24 +14,18 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "market")
+    @Column(name = "market_id")
     private Long marketId;
-
-    @Column(name = "product_id")
-    private Long productId;
-
-    @Column(name = "product_name")
-    private String productName;
 
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "user")
+    @Column(name = "user_name")
     private String user;
-
-    @Column(name = "soni")
-    private Long soni;
 
     @Column(name = "sell_date")
     private LocalDateTime sellDate;
+
+    @Column(name = "summ")
+    private Long soni;
 }

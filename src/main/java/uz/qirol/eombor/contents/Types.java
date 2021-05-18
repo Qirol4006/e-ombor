@@ -12,6 +12,7 @@ import uz.qirol.eombor.repository.TypesRepository;
 import uz.qirol.eombor.repository.UserRepository;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @Controller
@@ -36,6 +37,23 @@ public class Types {
         }
         ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
         return ResponseEntity.ok(typesRepository.findAllByMarketId(reqAccepted.getMarketId()));
+    }
+
+
+    @GetMapping(value = "/all/{id}")
+    public ResponseEntity<?> getAllTypesByParentId(@PathVariable("id") Long id, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent()) {
+            return ResponseEntity.ok("user");
+        }
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent()) {
+            return ResponseEntity.ok("notAccepted");
+        }
+        ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
+
+        List<ProductType> productType = typesRepository
+                .findAllByMarketIdAndParentId(reqAccepted.getMarketId(), id);
+        return ResponseEntity.ok(productType);
     }
 
     @PostMapping(value = "/save")
