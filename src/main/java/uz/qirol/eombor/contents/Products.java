@@ -95,8 +95,9 @@ public class Products {
             u.setMarketId(accepted.getMarketId());
             u.setTransactionId(transaction1.getId());
         });
+        sellProds.saveAll(sellProduct);
 
-        return ResponseEntity.ok(sellProds.saveAll(sellProduct));
+        return ResponseEntity.ok("Saved!");
     }
 
     @GetMapping(value = "/{id}")

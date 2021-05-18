@@ -27,4 +27,7 @@ public class SellProduct {
 
     @Column(name = "count")
     private Long count;
+
+    @Column(name = "valyuta")
+    private String valyuta;
 }
