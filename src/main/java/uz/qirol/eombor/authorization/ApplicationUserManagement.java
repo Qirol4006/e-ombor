@@ -260,6 +260,7 @@ public class ApplicationUserManagement {
     @GetMapping(value = "/getmarketid")
     public ResponseEntity<?> getMarketId(Principal principal){
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        
         return ResponseEntity.ok(acceptedRepository.findByUserId(user.getId()));
     }
 

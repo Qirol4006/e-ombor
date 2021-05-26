@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Data
 @Entity
@@ -28,4 +29,10 @@ public class Transaction {
 
     @Column(name = "summ")
     private Long soni;
+
+    @Column(name = "summa")
+    private Long summa;
+
+    @Column(name = "note")
+    private String note;
 }

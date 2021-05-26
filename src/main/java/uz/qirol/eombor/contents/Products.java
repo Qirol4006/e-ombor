@@ -2,7 +2,6 @@ package uz.qirol.eombor.contents;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uz.qirol.eombor.model.*;
@@ -10,8 +9,8 @@ import uz.qirol.eombor.repository.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @Controller
@@ -65,12 +64,28 @@ public class Products {
     @GetMapping(value = "/sells")
     public ResponseEntity<?> getSells(Principal principal){
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        if(!acceptedRepository.findByUserId(user.getId()).isPresent()){
+            return ResponseEntity.ok("NotAccepted");
+        }
         ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
         return ResponseEntity.ok(transactionRepository.findAllByMarketId(reqAccepted.getMarketId()));
     }
 
+    @GetMapping(value = "/sold")
+    public ResponseEntity<?> soldProducts(Principal principal){
+        User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        if(!acceptedRepository.findByUserId(user.getId()).isPresent()){
+            return ResponseEntity.ok("NotAccepted");
+        }
+        ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
+        return ResponseEntity.ok(sellProds.findAllByMarketId(reqAccepted.getMarketId()));
+    }
+
+    private Long summa = 0L;
     @PostMapping(value = "/sell")
     public ResponseEntity<?> sellProduct(@RequestBody List<SellProduct> sellProduct, Principal principal){
+
+        summa = 0L;
 
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
 
@@ -87,16 +102,22 @@ public class Products {
         transaction.setUserId(user.getId());
         transaction.setMarketId(accepted.getMarketId());
         transaction.setUser(user.getName());
+        transaction.setSumma(0L);
+        transaction.setNote(sellProduct.get(sellProduct.size()-1).getName());
+
+        sellProduct.remove(sellProduct.size()-1);
 
         Transaction transaction1 = transactionRepository.save(transaction);
 
-        sellProds.deleteAll();
         sellProduct.forEach( u -> {
             u.setMarketId(accepted.getMarketId());
             u.setTransactionId(transaction1.getId());
+            summa += u.getPrice();
         });
         sellProds.saveAll(sellProduct);
-
+        Transaction transaction2 = transactionRepository.findById(transaction1.getId()).orElse(null);
+        transaction2.setSumma(summa);
+        transactionRepository.save(transaction2);
         return ResponseEntity.ok("Saved!");
     }
 
@@ -218,5 +239,27 @@ public class Products {
         }
         productRepository.deleteById(product.getId());
         return ResponseEntity.ok("Deleted");
+    }
+
+    @GetMapping(value = "/delete/transaction/{id}")
+    public ResponseEntity<?> deleteTransactionById(@PathVariable("id") Long id, Principal principal){
+        User user = userRepository.findByUsername(principal.getName()).orElse(null);
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent()){
+            return ResponseEntity.ok("user");
+        }
+        ReqAccepted reqAccepted = acceptedRepository.findByUserId(user.getId()).orElse(null);
+        if (!transactionRepository.findById(id).isPresent()){
+            ResponseEntity.ok("TransactionNotFound!");
+        }
+        Transaction transaction = transactionRepository.findById(id).orElse(null);
+        if (!reqAccepted.getMarketId().equals(transaction.getMarketId())) return ResponseEntity.ok("NotMatch");
+
+        transactionRepository.deleteById(id);
+
+        List<SellProduct> sellProducts = sellProds.findAllByTransactionId(id);
+
+        sellProds.deleteAll(sellProducts);
+
+        return ResponseEntity.ok("Deleted!");
     }
 }
