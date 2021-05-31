@@ -15,6 +15,7 @@ import javax.crypto.SecretKey;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import static uz.qirol.eombor.security.ApplicationUserRole.ADMIN;
 
@@ -264,4 +265,19 @@ public class ApplicationUserManagement {
         return ResponseEntity.ok(acceptedRepository.findByUserId(user.getId()));
     }
 
+    @GetMapping(value = "/delete/employee/{id}")
+    public ResponseEntity<?> deleteAcceptedRequest(@PathVariable("id") Long id, Principal principal){
+
+        List<ReqAccepted> accepteds = acceptedRepository.findAll();
+        accepteds.forEach(
+                a -> {
+                    Long uId = a.getUserId();
+                    User user =userRepository.findById(uId).orElse(null);
+                    a.setUserName(user.getName() + " " + user.getLastName());
+
+                }
+        );
+        acceptedRepository.saveAll(accepteds);
+        return ResponseEntity.ok(id);
+    }
 }

@@ -18,4 +18,7 @@ public class ReqAccepted {
 
     @Column(name = "market_id")
     private Long marketId;
+
+    @Column(name = "user_name")
+    private String userName;
 }
