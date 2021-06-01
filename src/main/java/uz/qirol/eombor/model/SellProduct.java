@@ -30,4 +30,7 @@ public class SellProduct {
 
     @Column(name = "valyuta")
     private String valyuta;
+
+    @Column(name = "product_id")
+    private Long productId;
 }

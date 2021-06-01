@@ -39,4 +39,7 @@ public class Product {
 
     @Column(name = "valyuta")
     private String valyuta;
+
+    @Column(name = "shtrix_code")
+    private Long shtrixCode;
 }

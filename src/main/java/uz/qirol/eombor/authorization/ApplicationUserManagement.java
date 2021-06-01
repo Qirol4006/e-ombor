@@ -222,6 +222,8 @@ public class ApplicationUserManagement {
 
         reqAccepted.setMarketId(permission.getMagazinId());
         reqAccepted.setUserId(permission.getUserId());
+        reqAccepted.setUserName(user.getName() + " " + user.getLastName());
+        reqAccepted.setType(permission.getPermission());
 
         permissionRequest.deleteById(id);
 
@@ -261,23 +263,37 @@ public class ApplicationUserManagement {
     @GetMapping(value = "/getmarketid")
     public ResponseEntity<?> getMarketId(Principal principal){
         User user = userRepository.findByUsername(principal.getName()).orElse(null);
-        
+
+        if (!acceptedRepository.findByUserId(user.getId()).isPresent())
+            return ResponseEntity.ok("NotAccepted!");
+
         return ResponseEntity.ok(acceptedRepository.findByUserId(user.getId()));
     }
 
     @GetMapping(value = "/delete/employee/{id}")
     public ResponseEntity<?> deleteAcceptedRequest(@PathVariable("id") Long id, Principal principal){
+        if (!marketRepository.findByUsername(principal.getName()).isPresent())
+            return  ResponseEntity.ok("NotFoundMarket!");
 
-        List<ReqAccepted> accepteds = acceptedRepository.findAll();
-        accepteds.forEach(
-                a -> {
-                    Long uId = a.getUserId();
-                    User user =userRepository.findById(uId).orElse(null);
-                    a.setUserName(user.getName() + " " + user.getLastName());
+        Market market = marketRepository.findByUsername(principal.getName()).orElse(null);
 
-                }
-        );
-        acceptedRepository.saveAll(accepteds);
-        return ResponseEntity.ok(id);
+        if (!acceptedRepository.findById(id).isPresent()) return ResponseEntity.ok("NotAccepted");
+
+        ReqAccepted accepted = acceptedRepository.findById(id).orElse(null);
+
+        if (accepted.getMarketId() != market.getId()) return ResponseEntity.ok("NotMatches");
+
+        acceptedRepository.delete(accepted);
+
+        return ResponseEntity.ok("Deleted");
+    }
+
+    @GetMapping(value = "/employee")
+    public ResponseEntity<?> getAllEmployee(Principal principal){
+        if (!marketRepository.findByUsername(principal.getName()).isPresent())
+            return  ResponseEntity.ok("NotFoundMarket!");
+
+        Market market = marketRepository.findByUsername(principal.getName()).orElse(null);
+        return ResponseEntity.ok(acceptedRepository.findAllByMarketId(market.getId()));
     }
 }

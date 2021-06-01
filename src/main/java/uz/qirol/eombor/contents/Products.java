@@ -97,7 +97,7 @@ public class Products {
 
         Transaction transaction = new Transaction();
 
-        transaction.setSoni((long) sellProduct.size());
+        transaction.setSoni((long) sellProduct.size() - 1);
         transaction.setSellDate(LocalDateTime.now());
         transaction.setUserId(user.getId());
         transaction.setMarketId(accepted.getMarketId());
@@ -112,7 +112,10 @@ public class Products {
         sellProduct.forEach( u -> {
             u.setMarketId(accepted.getMarketId());
             u.setTransactionId(transaction1.getId());
-            summa += u.getPrice();
+            Product product = productRepository.findById(u.getProductId()).orElse(null);
+            product.setSoni(product.getSoni() - u.getCount());
+            productRepository.save(product);
+            summa += u.getPrice() * u.getCount();
         });
         sellProds.saveAll(sellProduct);
         Transaction transaction2 = transactionRepository.findById(transaction1.getId()).orElse(null);

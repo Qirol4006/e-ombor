@@ -21,4 +21,7 @@ public class ReqAccepted {
 
     @Column(name = "user_name")
     private String userName;
+
+    @Column(name = "type")
+    private String type;
 }
